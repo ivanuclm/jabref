@@ -191,7 +191,7 @@ class PreferencesMigrationsTest {
 
     @Test
     void testUpgradeColumnPreferencesAlreadyMigrated() {
-        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "citationkey", "printed");
+        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "detected_language", "citationkey", "printed");
         List<String> columnWidths = Arrays.asList("75", "300", "470", "60", "130", "100", "30");
 
         when(prefs.getStringList(JabRefPreferences.COLUMN_NAMES)).thenReturn(columnNames);
@@ -205,9 +205,9 @@ class PreferencesMigrationsTest {
 
     @Test
     void testUpgradeColumnPreferencesFromWithoutTypes() {
-        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "citationkey", "printed");
+        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "detected_language", "citationkey", "printed");
         List<String> columnWidths = Arrays.asList("75", "300", "470", "60", "130", "100", "30");
-        List<String> updatedNames = Arrays.asList("groups", "files", "linked_id", "field:entrytype", "field:author/editor", "field:title", "field:year", "field:journal/booktitle", "field:citationkey", "special:printed");
+        List<String> updatedNames = Arrays.asList("groups", "files", "linked_id", "field:entrytype", "field:author/editor", "field:title", "field:year", "field:journal/booktitle", "field:detected_language", "field:citationkey", "special:printed");
         List<String> updatedWidths = Arrays.asList("28", "28", "28", "75", "300", "470", "60", "130", "100", "30");
         List<String> newSortTypes = Arrays.asList("ASCENDING", "ASCENDING", "ASCENDING", "ASCENDING", "ASCENDING", "ASCENDING", "ASCENDING", "ASCENDING", "ASCENDING", "ASCENDING");
 
@@ -223,7 +223,7 @@ class PreferencesMigrationsTest {
 
     @Test
     void testChangeColumnPreferencesVariableNamesFor51() {
-        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "citationkey", "printed");
+        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "detected_language", "citationkey", "printed");
         List<String> columnWidths = Arrays.asList("75", "300", "470", "60", "130", "100", "30");
 
         // The variable names have to be hardcoded, because they have changed between 5.0 and 5.1
@@ -247,7 +247,7 @@ class PreferencesMigrationsTest {
 
     @Test
     void testChangeColumnPreferencesVariableNamesBackwardsCompatibility() {
-        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "citationkey", "printed");
+        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "detected_language", "citationkey", "printed");
         List<String> columnWidths = Arrays.asList("75", "300", "470", "60", "130", "100", "30");
 
         // The variable names have to be hardcoded, because they have changed between 5.0 and 5.1
@@ -271,8 +271,9 @@ class PreferencesMigrationsTest {
 
     @Test
     void testRestoreColumnVariablesForBackwardCompatibility() {
-        List<String> updatedNames = Arrays.asList("groups", "files", "linked_id", "field:entrytype", "field:author/editor", "field:title", "field:year", "field:journal/booktitle", "field:citationkey", "special:printed");
-        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "citationkey", "printed");
+        List<String> updatedNames = Arrays.asList("groups", "files", "linked_id", "field:entrytype", "field:author/editor", "field:title", "field:year", "field:journal/booktitle", "field:detected_language", "field:citationkey", "special:printed");
+        List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "detected_language", "citationkey", "printed");
+        // List<String> columnNames = Arrays.asList("entrytype", "author/editor", "title", "year", "journal/booktitle", "detected_language", "citationkey", "printed");
         List<String> columnWidths = Arrays.asList("100", "100", "100", "100", "100", "100", "100");
 
         when(prefs.getStringList(JabRefPreferences.COLUMN_NAMES)).thenReturn(updatedNames);
