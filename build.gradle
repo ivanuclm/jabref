@@ -1,4 +1,3 @@
-import groovy.json.JsonSlurper
 import org.gradle.internal.os.OperatingSystem
 import org.jabref.build.JournalAbbreviationConverter
 import org.jabref.build.xjc.XjcPlugin
@@ -219,6 +218,9 @@ dependencies {
 
     checkstyle 'com.puppycrawl.tools:checkstyle:9.3'
     xjc group: 'org.glassfish.jaxb', name: 'jaxb-xjc', version: '2.3.3'
+
+    //Implementing LINGUA (Language detector)
+    implementation 'com.github.pemistahl:lingua:1.1.1'
 }
 
 clean {

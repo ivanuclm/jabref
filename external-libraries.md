@@ -539,6 +539,7 @@ com.fasterxml.jackson.core:jackson-databind:2.13.0
 com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0
 com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0
 com.fasterxml.jackson:jackson-bom:2.13.0
+com.github.pemistahl:lingua:1.1.1
 com.github.tomtung:latex2unicode_2.12:0.2.6
 com.google.code.gson:gson:2.8.8
 com.google.errorprone:error_prone_annotations:2.7.1
