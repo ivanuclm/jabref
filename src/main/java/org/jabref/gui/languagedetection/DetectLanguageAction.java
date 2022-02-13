@@ -1,5 +1,6 @@
 package org.jabref.gui.languagedetection;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ import org.jabref.model.entry.field.StandardField;
 import org.jabref.preferences.PreferencesService;
 
 import com.cybozu.labs.langdetect.Detector;
-import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
 
 public class DetectLanguageAction extends SimpleCommand {
 
@@ -32,8 +33,10 @@ public class DetectLanguageAction extends SimpleCommand {
                 List.of(StandardField.URL, StandardField.DOI, StandardField.URI, StandardField.EPRINT),
                 stateManager);
         this.executable.bind(ActionHelper.needsEntriesSelected(1, stateManager).and(fieldIsSet));
+
     }
 
+    @SuppressWarnings("checkstyle:WhitespaceAfter")
     @Override
     public void execute() {
         stateManager.getActiveDatabase().ifPresent(databaseContext -> {
@@ -45,6 +48,68 @@ public class DetectLanguageAction extends SimpleCommand {
             }
 
             BibEntry entry = entries.get(0);
+
+            HashMap<String, String> languageT = new HashMap<>();
+
+            languageT.put("af", "Afrikaans");
+            languageT.put("ar", "Arabic");
+            languageT.put("bg", "Bulgarian");
+            languageT.put("bn", "Bengali");
+            languageT.put("cs", "Czech");
+            languageT.put("da", "Danish");
+            languageT.put("de", "German");
+            languageT.put("el", "Greek");
+            languageT.put("en", "English");
+            languageT.put("es", "Spanish");
+            languageT.put("et", "Estonian");
+            languageT.put("fa", "Persian");
+            languageT.put("fi", "Finnish");
+            languageT.put("fr", "French");
+            languageT.put("gu", "Gujarati");
+            languageT.put("he", "Hebrew");
+            languageT.put("hi", "Hindi");
+            languageT.put("hr", "Croatian");
+            languageT.put("hu", "Hungarian");
+            languageT.put("id", "Indonesian");
+            languageT.put("it", "Italian");
+            languageT.put("ja", "Japanese");
+            languageT.put("kn", "Kannada");
+            languageT.put("ko", "Korean");
+            languageT.put("lt", "Lithuanian");
+            languageT.put("lv", "Latvian");
+            languageT.put("mk", "Macedonian");
+            languageT.put("ml", "Malayalam");
+            languageT.put("mr", "Marathi");
+            languageT.put("ne", "Nepali");
+            languageT.put("nl", "Dutch");
+            languageT.put("no", "Norwegian");
+            languageT.put("pa", "Punjabi");
+            languageT.put("pl", "Polish");
+            languageT.put("pt", "Portuguese");
+            languageT.put("ro", "Romanian");
+            languageT.put("ru", "Russian");
+            languageT.put("sk", "Slovak");
+            languageT.put("sl", "Slovene");
+            languageT.put("so", "Somali");
+            languageT.put("sq", "Albanian");
+            languageT.put("sv", "Swedish");
+            languageT.put("sw", "Swahili");
+            languageT.put("ta", "Tamil");
+            languageT.put("te", "Telugu");
+            languageT.put("th", "Thai");
+            languageT.put("tl", "Tagalog");
+            languageT.put("tr", "Turkish");
+            languageT.put("uk", "Ukrainian");
+            languageT.put("ur", "Urdu");
+            languageT.put("vi", "Vietnamese");
+            languageT.put("zh-c n", "Simplified Chinese");
+            languageT.put("zh-tw", "Traditional Chinese");
+
+            try {
+                com.cybozu.labs.langdetect.DetectorFactory.loadProfile("/home/ivanandvenian/PORTUGAL/jabref/src/main/java/org/jabref/gui/languagedetection/profiles");
+            } catch (LangDetectException e) {
+                e.printStackTrace();
+            }
 
             // ToDo: Create dialog or menu to chose which one to open
             // URL - DOI - DOI - EPRINT
@@ -80,15 +145,14 @@ public class DetectLanguageAction extends SimpleCommand {
             Optional<String> title = entry.getTitle();
 
             try {
-                com.cybozu.labs.langdetect.DetectorFactory.loadProfile("/home/ivanandvenian/PORTUGAL/jabref/src/main/java/org/jabref/gui/languagedetection/basado/cybozu/labs/langdetect/profiles");
-                DetectorFactory.loadProfile("org.jabref.gui.languagedetection.basado.cybozu.labs.langdetect.profiles");
+
                 Detector detector = com.cybozu.labs.langdetect.DetectorFactory.create();
                 detector.append(title.toString());
                 String lang = detector.detect();
-                dialogService.showConfirmationDialogAndWait("lenguaje basado", lang);
+                dialogService.showConfirmationDialogAndWait("lenguaje basado", languageT.get(lang));
             } catch (com.cybozu.labs.langdetect.LangDetectException e) {
                 e.printStackTrace();
-                dialogService.showWarningDialogAndWait("diablos", "cybozu leyo el archivo bien");
+                dialogService.showWarningDialogAndWait("diablos", "cybozu no leyo el archivo bien");
 
             }
 
