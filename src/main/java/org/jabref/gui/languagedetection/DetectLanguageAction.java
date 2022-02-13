@@ -4,16 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.beans.binding.BooleanExpression;
-
 import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.actions.ActionHelper;
 import org.jabref.gui.actions.SimpleCommand;
 import org.jabref.logic.l10n.Localization;
 import org.jabref.model.entry.BibEntry;
-import org.jabref.model.entry.field.StandardField;
-import org.jabref.preferences.PreferencesService;
 
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.LangDetectException;
@@ -22,17 +18,14 @@ public class DetectLanguageAction extends SimpleCommand {
 
     private final DialogService dialogService;
     private final StateManager stateManager;
-    private final PreferencesService preferences;
 
-    public DetectLanguageAction(DialogService dialogService, StateManager stateManager, PreferencesService preferences) {
+    public DetectLanguageAction(DialogService dialogService, StateManager stateManager) {
         this.dialogService = dialogService;
         this.stateManager = stateManager;
-        this.preferences = preferences;
-
-        BooleanExpression fieldIsSet = ActionHelper.isAnyFieldSetForSelectedEntry(
-                List.of(StandardField.URL, StandardField.DOI, StandardField.URI, StandardField.EPRINT),
-                stateManager);
-        this.executable.bind(ActionHelper.needsEntriesSelected(1, stateManager).and(fieldIsSet));
+        // BooleanExpression fieldIsSet = ActionHelper.isAnyFieldSetForSelectedEntry(
+                // List.of(StandardField.URL, StandardField.DOI, StandardField.URI, StandardField.EPRINT),
+                // stateManager);
+        this.executable.bind(ActionHelper.needsEntriesSelected(1, stateManager));
 
     }
 
@@ -111,51 +104,17 @@ public class DetectLanguageAction extends SimpleCommand {
                 e.printStackTrace();
             }
 
-            // ToDo: Create dialog or menu to chose which one to open
-            // URL - DOI - DOI - EPRINT
-            /*
-            Optional<String> link = entry.getField(StandardField.EPRINT);
-            Field field = StandardField.EPRINT;
-            if (entry.hasField(StandardField.URI)) {
-                link = entry.getField(StandardField.URI);
-                field = StandardField.URI;
-            }
-            if (entry.hasField(StandardField.DOI)) {
-                link = entry.getField(StandardField.DOI);
-                field = StandardField.DOI;
-            }
-            if (entry.hasField(StandardField.URL)) {
-                link = entry.getField(StandardField.URL);
-                field = StandardField.URL;
-            }
-
-            if (link.isPresent()) {
-                try {
-                    if (field.equals(StandardField.DOI) && preferences.getDOIPreferences().isUseCustom()) {
-                        JabRefDesktop.openCustomDoi(link.get(), preferences, dialogService);
-                    } else {
-                        JabRefDesktop.openExternalViewer(databaseContext, preferences, link.get(), field);
-                    }
-                } catch (IOException e) {
-                    dialogService.showErrorDialogAndWait(Localization.lang("Unable to open link."), e);
-                }
-            }
-             */
-
             Optional<String> title = entry.getTitle();
 
             try {
-
                 Detector detector = com.cybozu.labs.langdetect.DetectorFactory.create();
                 detector.append(title.toString());
                 String lang = detector.detect();
-                dialogService.showConfirmationDialogAndWait("lenguaje basado", languageT.get(lang));
+                dialogService.showInformationDialogAndWait("Detected Language", languageT.get(lang));
             } catch (com.cybozu.labs.langdetect.LangDetectException e) {
                 e.printStackTrace();
-                dialogService.showWarningDialogAndWait("diablos", "cybozu no leyo el archivo bien");
-
+                dialogService.showWarningDialogAndWait("Unable to read file", "ERROR: cybozu couldn't be read (com.cybozu.labs.langdetect.LangDetectException)");
             }
-
         });
     }
 }

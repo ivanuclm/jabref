@@ -79,7 +79,7 @@ public class RightClickMenu {
 
                 new ChangeEntryTypeMenu().getChangeEntryTypeMenu(entry.getEntry(), libraryTab.getBibDatabaseContext(), libraryTab.getUndoManager()),
                 factory.createMenuItem(StandardActions.MERGE_WITH_FETCHED_ENTRY, new MergeWithFetchedEntryAction(libraryTab, dialogService, stateManager)),
-                factory.createMenuItem(StandardActions.DETECT_LANGUAGE, new DetectLanguageAction(dialogService, stateManager, preferencesService))
+                factory.createMenuItem(StandardActions.DETECT_LANGUAGE, new DetectLanguageAction(dialogService, stateManager))
         );
 
         return contextMenu;
