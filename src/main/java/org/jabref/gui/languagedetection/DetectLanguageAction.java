@@ -22,11 +22,7 @@ public class DetectLanguageAction extends SimpleCommand {
     public DetectLanguageAction(DialogService dialogService, StateManager stateManager) {
         this.dialogService = dialogService;
         this.stateManager = stateManager;
-        // BooleanExpression fieldIsSet = ActionHelper.isAnyFieldSetForSelectedEntry(
-                // List.of(StandardField.URL, StandardField.DOI, StandardField.URI, StandardField.EPRINT),
-                // stateManager);
         this.executable.bind(ActionHelper.needsEntriesSelected(1, stateManager));
-
     }
 
     @SuppressWarnings("checkstyle:WhitespaceAfter")
@@ -113,7 +109,7 @@ public class DetectLanguageAction extends SimpleCommand {
                 dialogService.showInformationDialogAndWait("Detected Language", languageT.get(lang));
             } catch (com.cybozu.labs.langdetect.LangDetectException e) {
                 e.printStackTrace();
-                dialogService.showWarningDialogAndWait("Unable to read file", "ERROR: cybozu couldn't be read (com.cybozu.labs.langdetect.LangDetectException)");
+                dialogService.showWarningDialogAndWait("Unable to read file", "ERROR: Languages File couldn't be read (com.cybozu.labs.langdetect.LangDetectException)");
             }
         });
     }
