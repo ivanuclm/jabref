@@ -18,6 +18,7 @@ import org.jabref.gui.edit.CopyMoreAction;
 import org.jabref.gui.edit.EditAction;
 import org.jabref.gui.exporter.ExportToClipboardAction;
 import org.jabref.gui.keyboard.KeyBindingRepository;
+import org.jabref.gui.languagedetection.DetectLanguageAction;
 import org.jabref.gui.linkedfile.AttachFileAction;
 import org.jabref.gui.menus.ChangeEntryTypeMenu;
 import org.jabref.gui.mergeentries.MergeEntriesAction;
@@ -77,7 +78,8 @@ public class RightClickMenu {
                 new SeparatorMenuItem(),
 
                 new ChangeEntryTypeMenu().getChangeEntryTypeMenu(entry.getEntry(), libraryTab.getBibDatabaseContext(), libraryTab.getUndoManager()),
-                factory.createMenuItem(StandardActions.MERGE_WITH_FETCHED_ENTRY, new MergeWithFetchedEntryAction(libraryTab, dialogService, stateManager))
+                factory.createMenuItem(StandardActions.MERGE_WITH_FETCHED_ENTRY, new MergeWithFetchedEntryAction(libraryTab, dialogService, stateManager)),
+                factory.createMenuItem(StandardActions.DETECT_LANGUAGE, new DetectLanguageAction(dialogService, stateManager, preferencesService))
         );
 
         return contextMenu;

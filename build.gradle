@@ -6,6 +6,15 @@ import org.jabref.build.xjc.XjcTask
 // to update the gradle wrapper, execute
 // ./gradlew wrapper --gradle-version=6.0 --distribution-type=bin
 
+buildscript {
+    ext.kotlin_version = '1.6.20-M1'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
 plugins {
     id 'application'
 
@@ -36,6 +45,7 @@ plugins {
 // gradle.startParameter.showStacktrace = org.gradle.api.logging.configuration.ShowStacktrace.
 
 apply plugin: XjcPlugin
+apply plugin: 'kotlin'
 
 apply from: 'eclipse.gradle'
 
@@ -219,8 +229,9 @@ dependencies {
     checkstyle 'com.puppycrawl.tools:checkstyle:9.3'
     xjc group: 'org.glassfish.jaxb', name: 'jaxb-xjc', version: '2.3.3'
 
-    //Implementing LINGUA (Language detector)
-    implementation 'com.github.pemistahl:lingua:1.1.1'
+    //Implementing LINGUA (Language detector kotlin)
+    //implementation 'com.github.pemistahl:lingua:1.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 clean {
@@ -708,5 +719,15 @@ task downloadDependencies {
                 project.logger.info e.message
             }
         }
+    }
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }

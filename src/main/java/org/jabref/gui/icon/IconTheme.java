@@ -339,7 +339,8 @@ public class IconTheme {
         KEEP_SEARCH_STRING(MaterialDesignE.EARTH),
         KEEP_ON_TOP(MaterialDesignP.PIN),
         KEEP_ON_TOP_OFF(MaterialDesignP.PIN_OFF_OUTLINE),
-        OPEN_GLOBAL_SEARCH(MaterialDesignO.OPEN_IN_NEW);
+        OPEN_GLOBAL_SEARCH(MaterialDesignO.OPEN_IN_NEW),
+        DETECT_LANGUAGE_ICON(MaterialDesignC.CACTUS);
 
         private final JabRefIcon icon;
 
