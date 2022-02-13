@@ -107,4 +107,9 @@ open module org.jabref {
     //requires lingua;
     requires kotlin.stdlib;
     requires annotations;
+    requires langdetect;
+    requires junit;
+    //requires ;
+    //requires com.github.ivanuclm.language-detector;
+    //requires com.github.shuyo:language-detection;
 }

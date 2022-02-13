@@ -9,12 +9,12 @@ import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.actions.ActionHelper;
 import org.jabref.gui.actions.SimpleCommand;
+import org.jabref.gui.languagedetection.shuyold.DetectorFactory;
+import org.jabref.gui.languagedetection.shuyold.LangDetectException;
 import org.jabref.logic.l10n.Localization;
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.preferences.PreferencesService;
-
-import org.apache.tika.language.detect.LanguageDetector;
 
 public class DetectLanguageAction extends SimpleCommand {
 
@@ -75,39 +75,23 @@ public class DetectLanguageAction extends SimpleCommand {
                 }
             }
              */
-            Optional<String> title = entry.getTitle();
-            LanguageDetector detector = LanguageDetector.getDefaultLanguageDetector();
-            String languageDetected = detector.detect(title.toString()).getLanguage();
-            dialogService.notify(Localization.lang(languageDetected));
-            /**
+
             try {
-                /**
-                Optional<String> title = entry.getTitle();
-                LanguageDetector detector = LanguageDetectorBuilder.fromAllLanguages().build();
-                Language detectedLanguage = detector.detectLanguageOf(title.toString());
-                // Language detectedLanguage = detector.detectLanguageOf(String.valueOf(title));
-                dialogService.notify(Localization.lang(detectedLanguage.toString()));
-
-
-                Optional<String> title = entry.getTitle();
-                // load all languages:
-                List<LanguageProfile> languageProfiles = new LanguageProfileReader().readAllBuiltIn();
-
-                // build language detector:
-                LanguageDetector languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard()).withProfiles(languageProfiles).build();
-
-                //create a text object factory
-                TextObjectFactory textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
-
-                //query:
-                TextObject textObject = textObjectFactory.forText("my text");
-                Optional<LdLocale> lang = languageDetector.detect(textObject);
-                 } catch (NoClassDefFoundError e) {
-                dialogService.showErrorDialogAndWait(Localization.lang("Mierda"), e);
-                } catch (IOException e2) {
-                dialogService.showErrorDialogAndWait(Localization.lang("Peor aun"), e2);
-                }
-             */
+                DetectorFactory.loadProfile("/home/ivanandvenian/PORTUGAL/jabref/src/main/java/org/jabref/gui/languagedetection/shuyold/profiles");
+            } catch (LangDetectException e) {
+                e.printStackTrace();
+            }
+            Optional<String> title = entry.getTitle();
+            try {
+                com.cybozu.labs.langdetect.Detector detector = DetectorFactory.create();
+                detector.append(title.toString());
+                String lang = detector.detect();
+                dialogService.showErrorDialogAndWait(lang);
+            } catch (LangDetectException e) {
+                e.printStackTrace();
+            } catch (com.cybozu.labs.langdetect.LangDetectException e) {
+                e.printStackTrace();
+            }
         });
     }
 }

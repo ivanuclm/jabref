@@ -232,6 +232,12 @@ dependencies {
     //Implementing LINGUA (Language detector kotlin)
     //implementation 'com.github.pemistahl:lingua:1.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    //implementation "org.jabref.otros.language-detection"
+    //implementation "com.github.shuyo:language-detection"
+    //implementation "com.cybozu.labs:langdetect"
+    // https://mvnrepository.com/artifact/com.cybozu.labs/langdetect
+    implementation group: 'com.cybozu.labs', name: 'langdetect', version: '1.1-20120112'
+
 }
 
 clean {
@@ -730,4 +736,14 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation 'junit:junit:4.13.2'
+    compile 'com.detectlanguage:detectlanguage:1.1.0'
 }
