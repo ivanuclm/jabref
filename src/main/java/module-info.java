@@ -109,6 +109,7 @@ open module org.jabref {
     requires annotations;
     requires langdetect;
     requires junit;
+    requires jsonic;
     //requires ;
     //requires com.github.ivanuclm.language-detector;
     //requires com.github.shuyo:language-detection;

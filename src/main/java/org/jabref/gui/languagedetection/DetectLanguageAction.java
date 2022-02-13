@@ -9,12 +9,13 @@ import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.actions.ActionHelper;
 import org.jabref.gui.actions.SimpleCommand;
-import org.jabref.gui.languagedetection.shuyold.DetectorFactory;
-import org.jabref.gui.languagedetection.shuyold.LangDetectException;
 import org.jabref.logic.l10n.Localization;
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.preferences.PreferencesService;
+
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
 
 public class DetectLanguageAction extends SimpleCommand {
 
@@ -76,22 +77,21 @@ public class DetectLanguageAction extends SimpleCommand {
             }
              */
 
-            try {
-                DetectorFactory.loadProfile("/home/ivanandvenian/PORTUGAL/jabref/src/main/java/org/jabref/gui/languagedetection/shuyold/profiles");
-            } catch (LangDetectException e) {
-                e.printStackTrace();
-            }
             Optional<String> title = entry.getTitle();
+
             try {
-                com.cybozu.labs.langdetect.Detector detector = DetectorFactory.create();
+                com.cybozu.labs.langdetect.DetectorFactory.loadProfile("/home/ivanandvenian/PORTUGAL/jabref/src/main/java/org/jabref/gui/languagedetection/basado/cybozu/labs/langdetect/profiles");
+                DetectorFactory.loadProfile("org.jabref.gui.languagedetection.basado.cybozu.labs.langdetect.profiles");
+                Detector detector = com.cybozu.labs.langdetect.DetectorFactory.create();
                 detector.append(title.toString());
                 String lang = detector.detect();
-                dialogService.showErrorDialogAndWait(lang);
-            } catch (LangDetectException e) {
-                e.printStackTrace();
+                dialogService.showConfirmationDialogAndWait("lenguaje basado", lang);
             } catch (com.cybozu.labs.langdetect.LangDetectException e) {
                 e.printStackTrace();
+                dialogService.showWarningDialogAndWait("diablos", "cybozu leyo el archivo bien");
+
             }
+
         });
     }
 }
